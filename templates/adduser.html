@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>Twitter Application</title>
+  </head>
+  <body>
+    <form data-bind="submit: addUser">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <a class="brand" href="#">Tweet App Demo</a>
+        </div>
+    </div>
+    <div id="main" class="container">
+
+      <table class="table table-striped">
+        Name: <input data-bind="value: name" placeholder="Full Name of user" type "text"/>
+            </div>
+            <div>
+      	Username: <input data-bind="value: username" placeholder="Username" type="username"></input>
+            </div>
+            <div>
+        email: <input data-bind="value: email" placeholder="Email id" type="email"></input>
+            </div>
+            <div>
+        password: <input data-bind="value: password" type="password" placeholder="Password"></input>
+            </div>
+            <button type="submit">Add User</button>
+          </table>
+</form>
+    <ul data-bind="foreach: user_list, visible: user_list().length > 0">
+      <li>
+	<p data-bind="text: name"></p>
+	<p data-bind="text: username"></p>
+  <p data-bind="text: email"></p>
+	<p data-bind="text: password"></p>
+      </li>
+    </ul>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/2.2.0/knockout-min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <!-- <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script> -->
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
