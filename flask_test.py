@@ -1,4 +1,4 @@
-from app_v2 import app
+from app import app
 import unittest
 
 class FlaskappTests(unittest.TestCase):
