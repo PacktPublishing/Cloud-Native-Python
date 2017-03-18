@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Twitter App Demo</title>
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <div id="container">
+            <div class="title">
+                <h1></h1>
+            </div>
+            <div id="content">
+            {% if session['name'] %}
+            Your name seems to be <strong>{{session['name']}}</strong>.<br/>
+            {% else %}
+            Please set username by clicking it <a href="{{ url_for('addname') }}">here</a>.<br/>
+            {% endif %}
+            Visit <a href="{{ url_for('adduser') }}">this for adding new application user </a> or <a href="{{ url_for('addtweetjs') }}">this to add new tweets</a> page to interact with RESTFUL API.
+            <br /><br />
+            <strong><a href="{{ url_for('clearsession') }}">Clear session</a></strong>
+            </div>
+            </div>
+        </div>
+    </body>
+</html>
