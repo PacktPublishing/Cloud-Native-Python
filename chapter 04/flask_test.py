@@ -1,3 +1,4 @@
+# Test cases for restful API
 from app import app
 import unittest
 
@@ -22,7 +23,6 @@ class FlaskappTests(unittest.TestCase):
 
         # assert the status code of the response
         self.assertEqual(result.status_code, 200)
-
 
     def test_addusers_status_code(self):
         # sends HTTP POST request to the application
