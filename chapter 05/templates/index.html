@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <title>Flask React</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- styles -->
+  </head>
+  <body>
+    <div class="container">
+      <h1></h1>
+      <br>
+      <div id="react"></div>
+    </div>
+    <!-- scripts -->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+
+
+    <script type="text/jsx">
+
+      /*** @jsx React.DOM */
+
+      var reactval = React.createClass({
+        render: function() {
+          return (<form><div className="input-field"><textarea className="materialize-textarea" /><label>How you doing?</label> <button className="btn right">Tweet now</button> </div></form>);
+        }
+      });
+
+      ReactDOM.render(
+        React.createElement(reactval, null),
+        document.getElementById('react')
+      );
+
+    </script>
+  </body>
+</html>

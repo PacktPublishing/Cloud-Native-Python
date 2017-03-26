@@ -64,25 +64,9 @@ def create_mongodatabase():
 # API Routes
 @app.route('/')
 def main():
-    return render_template('main.html')
+    return render_template('index.html')
 
 
-@app.route('/addname')
-def addname():
-  if request.args.get('yourname'):
-    session['name'] = request.args.get('yourname')
-    # Redirect to main
-    return redirect(url_for('main'))
-  else:
-    # getting addname
-    return render_template('addname.html', session=session)
-
-@app.route('/clear')
-def clearsession():
-    # Clear the session
-    session.clear()
-    # Redirect the user to the main page
-    return redirect(url_for('main'))
 
 @app.route('/adduser')
 def adduser():
