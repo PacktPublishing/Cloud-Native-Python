@@ -11,10 +11,12 @@
 //
 // var React = require("react");
 import Tweet from "./components/Tweet";
+import TweetList from "./components/TweetList";
 class Main extends React.Component{
   render(){
     return (
       <Tweet />
+      <TweetList />
     );
   }
 }
