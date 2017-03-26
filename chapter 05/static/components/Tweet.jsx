@@ -1,13 +1,20 @@
 export default class Tweet extends React.Component {
+  sendTweet(event){
+    event.preventDefault();
+    this.props.sendTweet(this.refs.tweetTextArea.value);
+    this.refs.tweetTextArea.value = '';
+  }
   render(){
     return(
-        <form>
+      <div className="row">
+        <form onSubmit={this.sendTweet.bind(this)}>
           <div className="input-field">
-            <textarea className="materialize-textarea" />
+            <textarea ref="tweetTextArea" className="materialize-textarea" />
             <label>How you doing?</label>
               <button className="btn right">Tweet now</button>
           </div>
          </form>
+      </div>
       );
     }
 }

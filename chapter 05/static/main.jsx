@@ -1,22 +1,22 @@
-
-
-// var reactval = React.createClass({
-//   render: function() {
-//     // return <Tweet />;
-//     return ('<form> <div className="input-field"><textarea className="materialize-textarea" /> <label>How you doing?</label><button className="btn right">Tweet now</button></div></form>'
-//     );
-//   }
-// });
-// import React from 'react';
-//
-// var React = require("react");
 import Tweet from "./components/Tweet";
 import TweetList from "./components/TweetList";
+
 class Main extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={tweets:[]}
+  }
+  addTweet(tweet){
+    let newTweet = this.state.tweets;
+    newTweet.unshift({name:"guest", body:tweet})
+    this.setState({tweets: newTweet});
+  }
   render(){
     return (
-      <Tweet />
-      <TweetList />
+      <div className="container">
+        <Tweet sendTweet={this.addTweet.bind(this)}/>
+        <TweetList tweets={this.state.tweets}/>
+      </div>
     );
   }
 }
