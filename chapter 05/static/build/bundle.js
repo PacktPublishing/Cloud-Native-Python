@@ -149,27 +149,66 @@
 	    value: function render() {
 	      return React.createElement(
 	        "div",
-	        { className: "row" },
+	        null,
 	        React.createElement(
-	          "form",
-	          { onSubmit: this.sendTweet.bind(this) },
+	          "nav",
+	          null,
 	          React.createElement(
 	            "div",
-	            { className: "input-field" },
-	            React.createElement("textarea", { ref: "tweetTextArea", className: "materialize-textarea" }),
+	            { className: "nav-wrapper" },
 	            React.createElement(
-	              "label",
-	              null,
-	              "How you doing?"
+	              "a",
+	              { href: "#", className: "brand-logo" },
+	              "Twitter APP"
 	            ),
 	            React.createElement(
-	              "button",
-	              { className: "btn waves-effect waves-light right" },
-	              "Tweet now ",
+	              "ul",
+	              { id: "nav-mobile", className: "right hide-on-med-and-down" },
 	              React.createElement(
-	                "i",
-	                { className: "material-icons right" },
-	                "send"
+	                "li",
+	                null,
+	                React.createElement(
+	                  "a",
+	                  { href: "/profile" },
+	                  "Profile"
+	                )
+	              ),
+	              React.createElement(
+	                "li",
+	                null,
+	                React.createElement(
+	                  "a",
+	                  { href: "/logout" },
+	                  "Logout"
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          "div",
+	          { className: "row" },
+	          React.createElement(
+	            "form",
+	            { onSubmit: this.sendTweet.bind(this) },
+	            React.createElement(
+	              "div",
+	              { className: "input-field" },
+	              React.createElement("textarea", { ref: "tweetTextArea", className: "materialize-textarea" }),
+	              React.createElement(
+	                "label",
+	                null,
+	                "How you doing?"
+	              ),
+	              React.createElement(
+	                "button",
+	                { className: "btn waves-effect waves-light right" },
+	                "Tweet now ",
+	                React.createElement(
+	                  "i",
+	                  { className: "material-icons right" },
+	                  "send"
+	                )
 	              )
 	            )
 	          )

@@ -14,7 +14,7 @@ class Requests:
     # List users
     def list_users():
         api_list=[]
-        db = connection.cloud_native.users
+        db = connection.app.users
         for row in db.find():
             api_list.append(str(row))
         # print (api_list)
@@ -24,7 +24,7 @@ class Requests:
     def list_user(user_id):
         print (user_id)
         api_list=[]
-        db = connection.cloud_native.users
+        db = connection.app.users
         for i in db.find({'id':user_id}):
             api_list.append(str(i))
 
@@ -35,7 +35,7 @@ class Requests:
     # List specific tweet
     def list_tweet(user_id):
         print (user_id)
-        db = connection.cloud_native.tweets
+        db = connection.app.tweets
         api_list=[]
         tweet = db.find({'id':user_id})
         for i in tweet:
@@ -48,7 +48,7 @@ class Requests:
     def add_user(new_user):
         api_list=[]
         print (new_user)
-        db = connection.cloud_native.users
+        db = connection.app.users
         user = db.find({'$or':[{"username":new_user['username']} ,{"email":new_user['email']}]})
         for i in user:
             print (str(i))
@@ -64,7 +64,7 @@ class Requests:
 
     # Deleting User
     def del_user(del_user):
-        db = connection.cloud_native.users
+        db = connection.app.users
         api_list=[]
         for i in db.find({'username':del_user}):
             api_list.append(str(i))
@@ -79,7 +79,7 @@ class Requests:
     def list_tweets():
 
         api_list=[]
-        db = connection.cloud_native.tweets
+        db = connection.app.tweets
         for row in db.find():
             api_list.append(str(row))
         # print (api_list)
@@ -90,8 +90,8 @@ class Requests:
     def add_tweet(new_tweet):
         api_list=[]
         print (new_tweet)
-        db_user = connection.cloud_native.users
-        db_tweet = connection.cloud_native.tweets
+        db_user = connection.app.users
+        db_tweet = connection.app.tweets
 
         user = db_user.find({"username":new_tweet['tweetedby']})
         for i in user:
@@ -105,7 +105,7 @@ class Requests:
     def upd_user(user):
         api_list=[]
         print (user)
-        db_user = connection.cloud_native.users
+        db_user = connection.app.users
         users = db_user.find_one({"id":user['id']})
         for i in users:
             api_list.append(str(i))

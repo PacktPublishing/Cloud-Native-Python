@@ -1,5 +1,5 @@
 # Importing modules
-from flask import Flask, render_template, request, jsonify, redirect, session
+from flask import Flask, render_template, flash, request, jsonify, redirect, session
 from flask import abort
 from flask_cors import CORS, cross_origin
 from flask import make_response, url_for
@@ -7,8 +7,10 @@ import json
 import random
 from requests import Requests
 from pymongo import MongoClient
+from flask.ext.pymongo import PyMongo
 from time import gmtime, strftime
 
+from flask.ext.mongoalchemy import MongoAlchemy
 
 
 # Object creation
@@ -16,6 +18,16 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.secret_key = '<some secret key>'
 CORS(app)
+
+app.config['MONGOALCHEMY_DATABASE'] = 'cloud_native'
+app.config['MONGOALCHEMY_CONNECTION_STRING'] = 'mongodb://localhost:27017/'
+
+
+db = MongoAlchemy()
+
+mongo=PyMongo(app)
+
+
 
 # Initialize Database
 def create_mongodatabase():
@@ -63,18 +75,98 @@ def create_mongodatabase():
 
 # API Routes
 @app.route('/')
-def main():
+def home():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    else:
+        return render_template('index.html')
+
+@app.route('/index')
+def index():
     return render_template('index.html')
 
+@app.route('/login', methods=['POST'])
+def do_admin_login():
+    users = mongo.db.users
+    api_list=[]
+    login_user = users.find({'username': request.form['username']})
+
+    if login_user:
+        for i in login_user:
+            api_list.append(i)
+        print (api_list[0]['password'] )
+        if api_list[0]['password'] == request.form['password']:
+            session['logged_in'] = api_list[0]['username']
+            return redirect(url_for('index'))
+
+        return 'Invalide username/password!'
+
+    return 'User doesnot exist!'
 
 
-@app.route('/adduser')
-def adduser():
-    return render_template('adduser.html')
 
-@app.route('/addtweets')
-def addtweetjs():
-    return render_template('addtweets.html')
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method=='POST':
+        users = mongo.db.users
+        api_list=[]
+        existing_user = users.find({'$or':[{"username":request.form['username']} ,{"email":request.form['email']}]})
+        for i in existing_user:
+            print (str(i))
+            api_list.append(str(i))
+
+        print (api_list)
+        if api_list == []:
+            users.insert({
+            "email": request.form['email'],
+            "id": random.randint(1,1000),
+            "name": request.form['name'],
+            "password": request.form['pass'],
+            "username": request.form['username']
+            })
+            session['username'] = request.form['username']
+            return redirect(url_for('home'))
+
+        return 'That user already exists'
+    else :
+        return render_template('signup.html')
+
+
+
+
+@app.route("/logout")
+def logout():
+    session['logged_in'] = False
+    return redirect(url_for('home'))
+
+@app.route("/profile", methods=['GET', 'POST'])
+def profile():
+    if request.method=='POST':
+        users = mongo.db.users
+        api_list=[]
+        existing_user = users.find({"username":request.form['username']})
+        for i in existing_user:
+            print (str(i))
+            api_list.append(str(i))
+        user = []
+        print (api_list)
+        if api_list == []:
+            user['email']=request.form['email']
+            user['name']=request.form['name']
+            user['password'] = request.form['pass']
+            users.update({'id':user['id']},{'$set': user}, upsert=False )
+            return redirect(url_for('index'))
+        return 'User not found!'
+    else :
+        users = mongo.db.users
+        user=[]
+        print (session['username'])
+        existing_user = users.find({"username":session['username']})
+        for i in existing_user:
+            user.append(i)
+        return render_template('profile.html', name=user[0]['name'], username=user[0]['username'], password=user[0]['password'], email=user[0]['email'])
+
+
 
 @app.route("/api/v1/info")
 def home_index():
@@ -161,5 +253,5 @@ def invalid_request(error):
 
 # Main Function
 if __name__ == '__main__':
-    create_mongodatabase()
+    # create_mongodatabase()
     app.run(host='0.0.0.0', port=5000, debug=True)
