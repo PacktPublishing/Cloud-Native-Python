@@ -164,8 +164,13 @@
 	            ),
 	            React.createElement(
 	              "button",
-	              { className: "btn right" },
-	              "Tweet now"
+	              { className: "btn waves-effect waves-light right" },
+	              "Tweet now ",
+	              React.createElement(
+	                "i",
+	                { className: "material-icons right" },
+	                "send"
+	              )
 	            )
 	          )
 	        )
