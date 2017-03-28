@@ -1,5 +1,5 @@
 # Importing modules
-from flask import Flask, render_template, flash, request, jsonify, redirect, session
+from flask import Flask, flash, render_template, flash, request, jsonify, redirect, session
 from flask import abort
 from flask_cors import CORS, cross_origin
 from flask import make_response, url_for
@@ -79,29 +79,30 @@ def home():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        return render_template('index.html')
+        return render_template('index.html', session = session['username'])
 
 @app.route('/index')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', session = session['username'])
 
 @app.route('/login', methods=['POST'])
 def do_admin_login():
     users = mongo.db.users
     api_list=[]
     login_user = users.find({'username': request.form['username']})
-
-    if login_user:
-        for i in login_user:
-            api_list.append(i)
+    for i in login_user:
+        api_list.append(i)
+    print (api_list)
+    if api_list != []:
         print (api_list[0]['password'] )
         if api_list[0]['password'] == request.form['password']:
             session['logged_in'] = api_list[0]['username']
             return redirect(url_for('index'))
-
         return 'Invalide username/password!'
+    else:
+        flash("Invalid Authentication")
 
-    return 'User doesnot exist!'
+    return 'Invalid User!'
 
 
 
@@ -112,10 +113,10 @@ def signup():
         api_list=[]
         existing_user = users.find({'$or':[{"username":request.form['username']} ,{"email":request.form['email']}]})
         for i in existing_user:
-            print (str(i))
+            # print (str(i))
             api_list.append(str(i))
 
-        print (api_list)
+        # print (api_list)
         if api_list == []:
             users.insert({
             "email": request.form['email'],
@@ -139,25 +140,27 @@ def logout():
     session['logged_in'] = False
     return redirect(url_for('home'))
 
-@app.route("/profile", methods=['GET', 'POST'])
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if request.method=='POST':
         users = mongo.db.users
         api_list=[]
-        existing_user = users.find({"username":request.form['username']})
-        for i in existing_user:
-            print (str(i))
+        existing_users = users.find({"username":session['username']})
+        for i in existing_users:
+            # print (str(i))
             api_list.append(str(i))
-        user = []
+        user = {}
         print (api_list)
-        if api_list == []:
+        if api_list != []:
+            print (request.form['email'])
             user['email']=request.form['email']
-            user['name']=request.form['name']
-            user['password'] = request.form['pass']
-            users.update({'id':user['id']},{'$set': user}, upsert=False )
-            return redirect(url_for('index'))
-        return 'User not found!'
-    else :
+            user['name']= request.form['name']
+            user['password']=request.form['pass']
+            users.update({'username':session['username']},{'$set': user} )
+        else:
+            return 'User not found!'
+        return redirect(url_for('index'))
+    if request.method=='GET':
         users = mongo.db.users
         user=[]
         print (session['username'])

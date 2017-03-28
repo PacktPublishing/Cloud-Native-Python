@@ -6,7 +6,7 @@ export default class Tweet extends React.Component {
   }
   render(){
     return(
-        <div>
+        <div className="row">
         <nav>
           <div className="nav-wrapper">
             <a href="#" className="brand-logo">Twitter APP</a>
@@ -16,7 +16,7 @@ export default class Tweet extends React.Component {
             </ul>
           </div>
         </nav>
-        <div className="row">
+
         <form onSubmit={this.sendTweet.bind(this)}>
           <div className="input-field">
             <textarea ref="tweetTextArea" className="materialize-textarea" />
@@ -24,7 +24,6 @@ export default class Tweet extends React.Component {
               <button className="btn waves-effect waves-light right">Tweet now <i className="material-icons right">send</i></button>
           </div>
          </form>
-      </div>
     </div>
       );
     }

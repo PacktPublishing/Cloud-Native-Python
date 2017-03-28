@@ -91,7 +91,7 @@
 	    value: function render() {
 	      return React.createElement(
 	        "div",
-	        { className: "container" },
+	        null,
 	        React.createElement(_Tweet2.default, { sendTweet: this.addTweet.bind(this) }),
 	        React.createElement(_TweetList2.default, { tweets: this.state.tweets })
 	      );
@@ -149,7 +149,7 @@
 	    value: function render() {
 	      return React.createElement(
 	        "div",
-	        null,
+	        { className: "row" },
 	        React.createElement(
 	          "nav",
 	          null,
@@ -186,29 +186,25 @@
 	          )
 	        ),
 	        React.createElement(
-	          "div",
-	          { className: "row" },
+	          "form",
+	          { onSubmit: this.sendTweet.bind(this) },
 	          React.createElement(
-	            "form",
-	            { onSubmit: this.sendTweet.bind(this) },
+	            "div",
+	            { className: "input-field" },
+	            React.createElement("textarea", { ref: "tweetTextArea", className: "materialize-textarea" }),
 	            React.createElement(
-	              "div",
-	              { className: "input-field" },
-	              React.createElement("textarea", { ref: "tweetTextArea", className: "materialize-textarea" }),
+	              "label",
+	              null,
+	              "How you doing?"
+	            ),
+	            React.createElement(
+	              "button",
+	              { className: "btn waves-effect waves-light right" },
+	              "Tweet now ",
 	              React.createElement(
-	                "label",
-	                null,
-	                "How you doing?"
-	              ),
-	              React.createElement(
-	                "button",
-	                { className: "btn waves-effect waves-light right" },
-	                "Tweet now ",
-	                React.createElement(
-	                  "i",
-	                  { className: "material-icons right" },
-	                  "send"
-	                )
+	                "i",
+	                { className: "material-icons right" },
+	                "send"
 	              )
 	            )
 	          )
