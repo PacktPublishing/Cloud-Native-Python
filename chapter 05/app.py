@@ -1,6 +1,7 @@
 # Importing modules
 from flask import Flask, flash, render_template, flash, request, jsonify, redirect, session
 from flask import abort
+import bcrypt
 from flask_cors import CORS, cross_origin
 from flask import make_response, url_for
 import json
@@ -94,8 +95,8 @@ def do_admin_login():
         api_list.append(i)
     print (api_list)
     if api_list != []:
-        print (api_list[0]['password'] )
-        if api_list[0]['password'] == request.form['password']:
+        # print (api_list[0]['password'].decode('utf-8'), bcrypt.hashpw(request.form['password'].encode('utf-8'), api_list[0]['password']).decode('utf-8'))
+        if api_list[0]['password'].decode('utf-8') == bcrypt.hashpw(request.form['password'].encode('utf-8'), api_list[0]['password']).decode('utf-8'):
             session['logged_in'] = api_list[0]['username']
             return redirect(url_for('index'))
         return 'Invalide username/password!'
@@ -122,7 +123,7 @@ def signup():
             "email": request.form['email'],
             "id": random.randint(1,1000),
             "name": request.form['name'],
-            "password": request.form['pass'],
+            "password": bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt()),
             "username": request.form['username']
             })
             session['username'] = request.form['username']
