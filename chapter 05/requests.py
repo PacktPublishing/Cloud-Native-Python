@@ -37,7 +37,7 @@ class Requests:
         print (user_id)
         db = connection.app.tweets
         api_list=[]
-        tweet = db.find({'id':user_id})
+        tweet = db.find({'tweetedby':user_id})
         for i in tweet:
             api_list.append(str(i))
         if api_list == []:

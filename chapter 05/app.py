@@ -20,7 +20,7 @@ app.config.from_object(__name__)
 app.secret_key = '<some secret key>'
 CORS(app)
 
-app.config['MONGOALCHEMY_DATABASE'] = 'cloud_native'
+app.config['MONGOALCHEMY_DATABASE'] = 'app'
 app.config['MONGOALCHEMY_CONNECTION_STRING'] = 'mongodb://localhost:27017/'
 
 
@@ -30,47 +30,47 @@ mongo=PyMongo(app)
 
 
 
-# Initialize Database
-def create_mongodatabase():
-    try:
-        dbnames = connection.database_names()
-        if 'cloud_native' not in dbnames:
-            db = connection.cloud_native.users
-            db_tweets = connection.cloud_native.tweets
-            db_api = connection.cloud_native.apirelease
-
-            db.insert({
-            "email": "eric.strom@google.com",
-            "id": 33,
-            "name": "Eric stromberg",
-            "password": "eric@123",
-            "username": "eric.strom"
-            })
-
-            db_tweets.insert({
-            "body": "New blog post,Launch your app with the AWS Startup Kit! #AWS",
-            "id": 18,
-            "timestamp": "2017-03-11T06:39:40Z",
-            "tweetedby": "eric.strom"
-            })
-
-            db_api.insert( {
-              "buildtime": "2017-01-01 10:00:00",
-              "links": "/api/v1/users",
-              "methods": "get, post, put, delete",
-              "version": "v1"
-            })
-            db_api.insert( {
-              "buildtime": "2017-02-11 10:00:00",
-              "links": "api/v2/tweets",
-              "methods": "get, post",
-              "version": "2017-01-10 10:00:00"
-            })
-            print ("Database Initialize completed!")
-        else:
-            print ("Database already Initialized!")
-    except:
-        print ("Database creation failed!!")
+# # Initialize Database
+# def create_mongodatabase():
+#     try:
+#         dbnames = connection.database_names()
+#         if 'cloud_native' not in dbnames:
+#             db = connection.cloud_native.users
+#             db_tweets = connection.cloud_native.tweets
+#             db_api = connection.cloud_native.apirelease
+#
+#             db.insert({
+#             "email": "eric.strom@google.com",
+#             "id": 33,
+#             "name": "Eric stromberg",
+#             "password": "eric@123",
+#             "username": "eric.strom"
+#             })
+#
+#             db_tweets.insert({
+#             "body": "New blog post,Launch your app with the AWS Startup Kit! #AWS",
+#             "id": 18,
+#             "timestamp": "2017-03-11T06:39:40Z",
+#             "tweetedby": "eric.strom"
+#             })
+#
+#             db_api.insert( {
+#               "buildtime": "2017-01-01 10:00:00",
+#               "links": "/api/v1/users",
+#               "methods": "get, post, put, delete",
+#               "version": "v1"
+#             })
+#             db_api.insert( {
+#               "buildtime": "2017-02-11 10:00:00",
+#               "links": "api/v2/tweets",
+#               "methods": "get, post",
+#               "version": "2017-01-10 10:00:00"
+#             })
+#             print ("Database Initialize completed!")
+#         else:
+#             print ("Database already Initialized!")
+#     except:
+#         print ("Database creation failed!!")
 
 
 
@@ -238,9 +238,9 @@ def add_tweets():
 
     return  jsonify({'status': Requests.add_tweet(user_tweet)}), 201
 
-@app.route('/api/v2/tweets/<int:id>', methods=['GET'])
-def get_tweet(id):
-    return Requests.list_tweet(id)
+@app.route('/api/v2/tweets/<string:tweetedby>', methods=['GET'])
+def get_tweet(tweetedby):
+    return Requests.list_tweet(tweetedby)
 
 # Error handling
 @app.errorhandler(404)
