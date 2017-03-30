@@ -10,7 +10,6 @@
     "react": "^15.4.2",
     "react-dev": "0.0.1",
     "react-dom": "^0.14.7",
-    "redux-auth-wrapper": "^1.0.0",
     "requirejs": "^2.3.3"
   },
   "devDependencies": {

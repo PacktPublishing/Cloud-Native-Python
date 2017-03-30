@@ -80,7 +80,7 @@
 	    var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 	
 	    _this.state = { userId: _reactCookie2.default.load('session') };
-	    _this.state = { tweets: [{ 'timestamp': '2017-03-29 08:05:36', '_id': "ObjectId('58db6ad019b08334f3d1e1f6')", 'id': 544, 'body': "Trust is the glue of life. It's the foundational principle that holds all relationships. - Stephen R. Covey #Motivation" }] };
+	    _this.state = { tweets: [{ 'timestamp': '2017-03-29 08:05:36', 'tweetedby': 'Camain', '_id': "ObjectId('58db6ad019b08334f3d1e1f6')", 'id': 544, 'body': "Trust is the glue of life. It's the foundational principle that holds all relationships. - Stephen R. Covey #Motivation" }] };
 	    return _this;
 	  }
 	  // function to post tweets
@@ -112,7 +112,7 @@
 	    key: "componentDidMount",
 	    value: function componentDidMount() {
 	      var self = this;
-	      $.ajax({ url: "/api/v2/tweets/",
+	      $.ajax({ url: "/api/v2/tweets",
 	        success: function success(data) {
 	          // self.setState({tweets: data['tweets_list']});
 	          // alert(self.state.tweets);
