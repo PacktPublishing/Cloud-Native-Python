@@ -22,56 +22,35 @@ CORS(app)
 
 app.config['MONGOALCHEMY_DATABASE'] = 'app'
 app.config['MONGOALCHEMY_CONNECTION_STRING'] = 'mongodb://localhost:27017/'
+connection = MongoClient("mongodb://localhost:27017/")
 
 
 db = MongoAlchemy()
 
 mongo=PyMongo(app)
-
-
-
-# # Initialize Database
-# def create_mongodatabase():
-#     try:
-#         dbnames = connection.database_names()
-#         if 'cloud_native' not in dbnames:
-#             db = connection.cloud_native.users
-#             db_tweets = connection.cloud_native.tweets
-#             db_api = connection.cloud_native.apirelease
-#
-#             db.insert({
-#             "email": "eric.strom@google.com",
-#             "id": 33,
-#             "name": "Eric stromberg",
-#             "password": "eric@123",
-#             "username": "eric.strom"
-#             })
-#
-#             db_tweets.insert({
-#             "body": "New blog post,Launch your app with the AWS Startup Kit! #AWS",
-#             "id": 18,
-#             "timestamp": "2017-03-11T06:39:40Z",
-#             "tweetedby": "eric.strom"
-#             })
-#
-#             db_api.insert( {
-#               "buildtime": "2017-01-01 10:00:00",
-#               "links": "/api/v1/users",
-#               "methods": "get, post, put, delete",
-#               "version": "v1"
-#             })
-#             db_api.insert( {
-#               "buildtime": "2017-02-11 10:00:00",
-#               "links": "api/v2/tweets",
-#               "methods": "get, post",
-#               "version": "2017-01-10 10:00:00"
-#             })
-#             print ("Database Initialize completed!")
-#         else:
-#             print ("Database already Initialized!")
-#     except:
-#         print ("Database creation failed!!")
-
+# Initialize Database
+def create_mongodatabase():
+    try:
+        dbnames = connection.database_names()
+        if 'app' not in dbnames:
+            db_api = connection.app.apirelease
+            db_api.insert( {
+              "buildtime": "2017-01-01 10:00:00",
+              "links": "/api/v1/users",
+              "methods": "get, post, put, delete",
+              "version": "v1"
+            })
+            db_api.insert( {
+              "buildtime": "2017-02-11 10:00:00",
+              "links": "api/v2/tweets",
+              "methods": "get, post",
+              "version": "2017-01-10 10:00:00"
+            })
+            print ("Database Initialize completed!")
+        else:
+            print ("Database already Initialized!")
+    except:
+        print ("Database creation failed!!")
 
 
 # API Routes
@@ -175,10 +154,16 @@ def profile():
 @app.route("/api/v1/info")
 def home_index():
     api_list=[]
-    db = connection.cloud_native.apirelease
+    db = connection.app.apirelease
     for row in db.find():
+        print (row)
+        # api_list['buildtime']. str(row['buildtime'])
+        # api_list['version'] = str(row['version'])
+        # api_list['links'] = str(row['links'])
+        # api_list['methods'] = str(row['methods'])
         api_list.append(str(row))
-    return jsonify({'api_version': Requests.api_list}), 200
+    print (api_list)
+    return json.dumps(api_list), 200
 
 
 
@@ -257,5 +242,5 @@ def invalid_request(error):
 
 # Main Function
 if __name__ == '__main__':
-    # create_mongodatabase()
+    create_mongodatabase()
     app.run(host='0.0.0.0', port=5000, debug=True)

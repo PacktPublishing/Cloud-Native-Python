@@ -1,5 +1,5 @@
 export default class Tweettemplate extends React.Component {
-  render(props){
+  render(){
     return(
       <li className="collection-item avatar">
         <i className="material-icons circle red">play_arrow</i>
@@ -7,7 +7,6 @@ export default class Tweettemplate extends React.Component {
         <p>{this.props.body}</p>
         <p>{this.props.timestamp}</p>
       </li>
-
       );
     }
 }

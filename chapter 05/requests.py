@@ -79,12 +79,19 @@ class Requests:
     def list_tweets():
 
         api_list=[]
+        dict = {}
         db = connection.app.tweets
         for row in db.find():
-            api_list.append(str(row))
-        # print (api_list)
-        return jsonify({'tweets_list': api_list})
+            print (row)
+            dict = {}
+            dict['id'] = row['id']
+            dict['timestamp'] = row['timestamp']
+            dict['tweetedby'] = row['tweetedby']
+            dict['body'] = row['body']
+            api_list.append(dict)
 
+        print (api_list)
+        return json.dumps(api_list)
 
     # Adding tweets
     def add_tweet(new_tweet):
