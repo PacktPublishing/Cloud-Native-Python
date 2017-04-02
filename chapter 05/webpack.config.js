@@ -1,5 +1,5 @@
 module.exports = {
-    entry: "./static/main.jsx",
+    entry: "./static/main.js",
     output: {
         path: __dirname + "/static/build/",
         filename: "bundle.js"
@@ -9,7 +9,7 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.jsx$/, exclude: /node_modules/, loader: "babel-loader", query:{presets:['react','es2015']} }
+            { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader", query:{presets:['react','es2015']} }
         ]
     }
 };
