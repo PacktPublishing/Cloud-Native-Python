@@ -1,32 +1,30 @@
 import Tweet from "./components/Tweet";
 import TweetList from "./components/TweetList";
 import cookie from 'react-cookie';
-import TweetActions from "./actions/Tweetactions";
-import TweetStore from "./stores/TweetStore";
+import TActions from "./actions/Tactions";
+import TStore from "./stores/TStore";
 
-TweetActions.getAllTweets();
+TActions.getAllTweets();
 
 let getAppState = () =>{
-  return { tweetslist: TweetStore.getAll()};
+  return { tweetslist: TStore.getAll()};
 }
 
 class Main extends React.Component{
   constructor(props){
     super(props);
-    this.state =  { userId: cookie.load('session') };
     this.state= getAppState();
     this._onChange = this._onChange.bind(this);
   }
 // function to pull tweets
   componentDidMount() {
-    TweetStore.addChangeListener(this._onChange);
+    TStore.addChangeListener(this._onChange);
 }
 componentWillUnMount() {
-  TweetStore.removeChangeListener(this._onChange);
+  TStore.removeChangeListener(this._onChange);
 }
 
 _onChange(){
-  console.log(5, "Main._onChange");
   this.setState(getAppState());
 }
 

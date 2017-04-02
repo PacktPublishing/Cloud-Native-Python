@@ -5,6 +5,6 @@ export default{
     API.getAllTweets();
   },
   sendTweet(body){
-    API.createTweet(body);
+    API.addTweet(body);
   }
 }

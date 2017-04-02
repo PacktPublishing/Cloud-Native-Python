@@ -1,13 +1,13 @@
-import ServerActions from './actions/ServerActions';
+import SActions from './actions/SActions';
 
 export default{
   getAllTweets(){
     $.getJSON('/api/v2/tweets', function(tweetModels) {
         var t = tweetModels
-        ServerActions.recievedTweets(t)
+        SActions.recievedTweets(t)
     });
   },
-  createTweet(body){
+  addTweet(body){
     $.ajax({
   	    url: '/api/v2/tweets',
   	    contentType: 'application/json',
@@ -17,7 +17,7 @@ export default{
       'body': body,
   	    }),
   	    success: function() {
-            rawTweet => ServerActions.recievedTweet({ tweetedby: "Saussiona55",body: tweet, timestamp: Date.now})
+            rawTweet => SActions.recievedTweet({ tweetedby: "Saussiona55",body: tweet, timestamp: Date.now})
   	    },
   	    error: function() {
   		      return console.log("Failed");

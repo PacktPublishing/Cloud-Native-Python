@@ -63,13 +63,13 @@
 	
 	var _reactCookie2 = _interopRequireDefault(_reactCookie);
 	
-	var _Tweetactions = __webpack_require__(/*! ./actions/Tweetactions */ 2);
+	var _Tactions = __webpack_require__(/*! ./actions/Tactions */ 2);
 	
-	var _Tweetactions2 = _interopRequireDefault(_Tweetactions);
+	var _Tactions2 = _interopRequireDefault(_Tactions);
 	
-	var _TweetStore = __webpack_require__(/*! ./stores/TweetStore */ 17);
+	var _TStore = __webpack_require__(/*! ./stores/TStore */ 17);
 	
-	var _TweetStore2 = _interopRequireDefault(_TweetStore);
+	var _TStore2 = _interopRequireDefault(_TStore);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -79,10 +79,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	_Tweetactions2.default.getAllTweets();
+	_Tactions2.default.getAllTweets();
 	
 	var getAppState = function getAppState() {
-	  return { tweetslist: _TweetStore2.default.getAll() };
+	  return { tweetslist: _TStore2.default.getAll() };
 	};
 	
 	var Main = function (_React$Component) {
@@ -93,7 +93,6 @@
 	
 	    var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 	
-	    _this.state = { userId: _reactCookie2.default.load('session') };
 	    _this.state = getAppState();
 	    _this._onChange = _this._onChange.bind(_this);
 	    return _this;
@@ -104,17 +103,16 @@
 	  _createClass(Main, [{
 	    key: "componentDidMount",
 	    value: function componentDidMount() {
-	      _TweetStore2.default.addChangeListener(this._onChange);
+	      _TStore2.default.addChangeListener(this._onChange);
 	    }
 	  }, {
 	    key: "componentWillUnMount",
 	    value: function componentWillUnMount() {
-	      _TweetStore2.default.removeChangeListener(this._onChange);
+	      _TStore2.default.removeChangeListener(this._onChange);
 	    }
 	  }, {
 	    key: "_onChange",
 	    value: function _onChange() {
-	      console.log(5, "Main._onChange");
 	      this.setState(getAppState());
 	    }
 	  }, {
@@ -153,9 +151,9 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _Tweetactions = __webpack_require__(/*! ../actions/Tweetactions */ 2);
+	var _Tactions = __webpack_require__(/*! ../actions/Tactions */ 2);
 	
-	var _Tweetactions2 = _interopRequireDefault(_Tweetactions);
+	var _Tactions2 = _interopRequireDefault(_Tactions);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -179,7 +177,7 @@
 	    value: function sendTweet(event) {
 	      event.preventDefault();
 	      // this.props.sendTweet(this.refs.tweetTextArea.value);
-	      _Tweetactions2.default.sendTweet(this.refs.tweetTextArea.value);
+	      _Tactions2.default.sendTweet(this.refs.tweetTextArea.value);
 	      this.refs.tweetTextArea.value = '';
 	    }
 	  }, {
@@ -258,9 +256,9 @@
 
 /***/ },
 /* 2 */
-/*!*****************************************!*\
-  !*** ./static/actions/Tweetactions.jsx ***!
-  \*****************************************/
+/*!*************************************!*\
+  !*** ./static/actions/Tactions.jsx ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -277,11 +275,10 @@
 	
 	exports.default = {
 	  getAllTweets: function getAllTweets() {
-	    console.log(1, "TweetActions");
 	    _API2.default.getAllTweets();
 	  },
 	  sendTweet: function sendTweet(body) {
-	    _API2.default.createTweet(body);
+	    _API2.default.addTweet(body);
 	  }
 	};
 
@@ -298,21 +295,20 @@
 	  value: true
 	});
 	
-	var _ServerActions = __webpack_require__(/*! ./actions/ServerActions */ 4);
+	var _SActions = __webpack_require__(/*! ./actions/SActions */ 4);
 	
-	var _ServerActions2 = _interopRequireDefault(_ServerActions);
+	var _SActions2 = _interopRequireDefault(_SActions);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = {
 	  getAllTweets: function getAllTweets() {
-	    console.log(2, "API.getAllTweets");
 	    $.getJSON('/api/v2/tweets', function (tweetModels) {
 	      var t = tweetModels;
-	      _ServerActions2.default.recievedTweets(t);
+	      _SActions2.default.recievedTweets(t);
 	    });
 	  },
-	  createTweet: function createTweet(body) {
+	  addTweet: function addTweet(body) {
 	    $.ajax({
 	      url: '/api/v2/tweets',
 	      contentType: 'application/json',
@@ -323,7 +319,7 @@
 	      }),
 	      success: function success() {
 	        (function (rawTweet) {
-	          return _ServerActions2.default.recievedTweet({ tweetedby: "Saussiona55", body: tweet, timestamp: Date.now });
+	          return _SActions2.default.recievedTweet({ tweetedby: "Saussiona55", body: tweet, timestamp: Date.now });
 	        });
 	      },
 	      error: function error() {
@@ -335,9 +331,9 @@
 
 /***/ },
 /* 4 */
-/*!******************************************!*\
-  !*** ./static/actions/ServerActions.jsx ***!
-  \******************************************/
+/*!*************************************!*\
+  !*** ./static/actions/SActions.jsx ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -358,14 +354,12 @@
 	
 	exports.default = {
 	  recievedTweets: function recievedTweets(rawTweets) {
-	    console.log(3, "ServerActions.RECIEVED_TWEETS");
 	    _dispatcher2.default.dispatch({
 	      actionType: _constants2.default.RECIEVED_TWEETS,
 	      rawTweets: rawTweets
 	    });
 	  },
 	  recievedTweet: function recievedTweet(rawTweet) {
-	    console.log(3, "ServerActions.RECIEVED_TWEET");
 	    _dispatcher2.default.dispatch({
 	      actionType: _constants2.default.RECIEVED_TWEET,
 	      rawTweet: rawTweet
@@ -1538,9 +1532,9 @@
 
 /***/ },
 /* 17 */
-/*!**************************************!*\
-  !*** ./static/stores/TweetStore.jsx ***!
-  \**************************************/
+/*!**********************************!*\
+  !*** ./static/stores/TStore.jsx ***!
+  \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1615,12 +1609,10 @@
 	_dispatcher2.default.register(function (action) {
 	  switch (action.actionType) {
 	    case _constants2.default.RECIEVED_TWEETS:
-	      console.log(4, "TweetStore");
 	      _tweets = action.rawTweets;
 	      TweetStore.emitChange();
 	      break;
 	    case _constants2.default.RECIEVED_TWEET:
-	      console.log(7, "TweetStore");
 	      _tweets.unshift(action.rawTweet);
 	      TweetStore.emitChange();
 	      break;
