@@ -25,18 +25,19 @@ class TweetEventEmitter extends EventEmitter{
   }
 }
 
-let TweetStore = new TweetEventEmitter();
+let TStore = new TweetEventEmitter();
 
 
 AppDispatcher.register(action =>{
   switch (action.actionType) {
     case ActionTypes.RECIEVED_TWEETS:
+        console.log(4, "Tstore for tweets");
         _tweets = action.rawTweets;
-        TweetStore.emitChange();
+        TStore.emitChange();
       break;
     case ActionTypes.RECIEVED_TWEET:
         _tweets.unshift(action.rawTweet);
-        TweetStore.emitChange();
+        TStore.emitChange();
       break;
     default:
 
@@ -44,4 +45,4 @@ AppDispatcher.register(action =>{
 });
 
 
-export default TweetStore;
+export default TStore;

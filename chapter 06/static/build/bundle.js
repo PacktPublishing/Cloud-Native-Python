@@ -275,6 +275,7 @@
 	
 	exports.default = {
 	  getAllTweets: function getAllTweets() {
+	    console.log(1, "Tactions for tweets");
 	    _API2.default.getAllTweets();
 	  },
 	  sendTweet: function sendTweet(body) {
@@ -303,6 +304,7 @@
 	
 	exports.default = {
 	  getAllTweets: function getAllTweets() {
+	    console.log(2, "API get tweets");
 	    $.getJSON('/api/v2/tweets', function (tweetModels) {
 	      var t = tweetModels;
 	      _SActions2.default.recievedTweets(t);
@@ -314,12 +316,12 @@
 	      contentType: 'application/json',
 	      type: 'POST',
 	      data: JSON.stringify({
-	        'username': "Saussiona55",
+	        'username': "Pardisturn",
 	        'body': body
 	      }),
 	      success: function success() {
 	        (function (rawTweet) {
-	          return _SActions2.default.recievedTweet({ tweetedby: "Saussiona55", body: tweet, timestamp: Date.now });
+	          return _SActions2.default.recievedTweet({ tweetedby: "Pardisturn", body: tweet, timestamp: Date.now });
 	        });
 	      },
 	      error: function error() {
@@ -354,6 +356,7 @@
 	
 	exports.default = {
 	  recievedTweets: function recievedTweets(rawTweets) {
+	    console.log(3, "recieved tweets");
 	    _dispatcher2.default.dispatch({
 	      actionType: _constants2.default.RECIEVED_TWEETS,
 	      rawTweets: rawTweets
@@ -1604,24 +1607,25 @@
 	  return TweetEventEmitter;
 	}(_events.EventEmitter);
 	
-	var TweetStore = new TweetEventEmitter();
+	var TStore = new TweetEventEmitter();
 	
 	_dispatcher2.default.register(function (action) {
 	  switch (action.actionType) {
 	    case _constants2.default.RECIEVED_TWEETS:
+	      console.log(4, "Tstore for tweets");
 	      _tweets = action.rawTweets;
-	      TweetStore.emitChange();
+	      TStore.emitChange();
 	      break;
 	    case _constants2.default.RECIEVED_TWEET:
 	      _tweets.unshift(action.rawTweet);
-	      TweetStore.emitChange();
+	      TStore.emitChange();
 	      break;
 	    default:
 	
 	  }
 	});
 	
-	exports.default = TweetStore;
+	exports.default = TStore;
 
 /***/ },
 /* 18 */

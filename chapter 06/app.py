@@ -74,7 +74,7 @@ def do_admin_login():
         api_list.append(i)
     print (api_list)
     if api_list != []:
-        # print (api_list[0]['password'].decode('utf-8'), bcrypt.hashpw(request.form['password'].encode('utf-8'), api_list[0]['password']).decode('utf-8'))
+        #print (api_list[0]['password'].decode('utf-8'), bcrypt.hashpw(request.form['password'].encode('utf-8'), api_list[0]['password']).decode('utf-8'))
         if api_list[0]['password'].decode('utf-8') == bcrypt.hashpw(request.form['password'].encode('utf-8'), api_list[0]['password']).decode('utf-8'):
             session['logged_in'] = api_list[0]['username']
             return redirect(url_for('index'))
@@ -99,7 +99,7 @@ def signup():
         # print (api_list)
         if api_list == []:
             users.insert({
-            "email": request.form['email'],
+            "email": (request.form['email']).lower(),
             "id": random.randint(1,1000),
             "name": request.form['name'],
             "password": bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt()),
@@ -133,9 +133,9 @@ def profile():
         print (api_list)
         if api_list != []:
             print (request.form['email'])
-            user['email']=request.form['email']
+            user['email']=(request.form['email']).lower()
             user['name']= request.form['name']
-            user['password']=request.form['pass']
+            user['password']=bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt())
             users.update({'username':session['username']},{'$set': user} )
         else:
             return 'User not found!'
