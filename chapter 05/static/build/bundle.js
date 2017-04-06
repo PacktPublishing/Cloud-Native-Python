@@ -42,9 +42,9 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/*!************************!*\
-  !*** ./static/main.js ***!
-  \************************/
+/*!*************************!*\
+  !*** ./static/main.jsx ***!
+  \*************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -80,7 +80,7 @@
 	    var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 	
 	    _this.state = { userId: _reactCookie2.default.load('session') };
-	    _this.state = { tweets: [{ 'timestamp': '2017-03-29 08:05:36', '_id': "ObjectId('58db6ad019b08334f3d1e1f6')", 'id': 544, 'body': "Trust is the glue of life. It's the foundational principle that holds all relationships. - Stephen R. Covey #Motivation" }] };
+	    _this.state = { tweets: [] };
 	    return _this;
 	  }
 	  // function to post tweets
@@ -91,15 +91,19 @@
 	    value: function addTweet(tweet) {
 	      var self = this;
 	      $.ajax({
-	        url: '/api/v2/tweets/',
+	        url: '/api/v2/tweets',
 	        contentType: 'application/json',
 	        type: 'POST',
 	        data: JSON.stringify({
-	          'username': "Agnsur",
+	          'username': "Saussiona55",
 	          'body': tweet
 	        }),
-	        success: function success(data) {
-	          return console.log("success");
+	        success: function success() {
+	          alert("success");
+	          var newTweetList = self.state.tweets;
+	          newTweetList.unshift({ tweetedby: "Saussiona55", body: tweet, timestamp: Date.now });
+	          self.setState({ tweets: newTweetList });
+	          return;
 	        },
 	        error: function error() {
 	          return console.log("Failed");
@@ -112,23 +116,19 @@
 	    key: "componentDidMount",
 	    value: function componentDidMount() {
 	      var self = this;
-	      $.ajax({ url: "/api/v2/tweets/",
-	        success: function success(data) {
-	          // self.setState({tweets: data['tweets_list']});
-	          // alert(self.state.tweets);
-	          return console.log("success");
-	        },
-	        error: function error() {
-	          return console.log("Failed");
-	        }
-	        // $.getJSON('/api/v2/tweets', function(tweetModels) {
-	        //   var t = $.map(tweetModels.tweets_list, function(item) {
-	        //   return item;
-	        // });
-	        // const tweet = t;
-	        // alert(tweet)
-	        // self.setState({tweets: tweet})
+	      $.getJSON('/api/v2/tweets', function (tweetModels) {
+	        var t = tweetModels;
+	        // var t = $.map(tweetModels, function(item) {
+	        //     return item;
+	        //  });
+	        alert(t);
+	        self.setState({ tweets: t });
 	      });
+	
+	      // $.ajax("/api/v2/tweets")
+	      // //  .success(data => this.setState({tweets: data}))
+	      //  .success(alert(data))
+	      //  .error(error => console.log(error));
 	    }
 	  }, {
 	    key: "render",
@@ -137,7 +137,7 @@
 	        "div",
 	        null,
 	        React.createElement(_Tweet2.default, { sendTweet: this.addTweet.bind(this) }),
-	        React.createElement(_TweetList2.default, { tweets: this.state.tweets })
+	        React.createElement(_TweetList2.default, { tweet: this.state.tweets })
 	      );
 	    }
 	  }]);
@@ -153,9 +153,9 @@
 
 /***/ },
 /* 1 */
-/*!************************************!*\
-  !*** ./static/components/Tweet.js ***!
-  \************************************/
+/*!*************************************!*\
+  !*** ./static/components/Tweet.jsx ***!
+  \*************************************/
 /***/ function(module, exports) {
 
 	"use strict";
@@ -264,9 +264,9 @@
 
 /***/ },
 /* 2 */
-/*!****************************************!*\
-  !*** ./static/components/TweetList.js ***!
-  \****************************************/
+/*!*****************************************!*\
+  !*** ./static/components/TweetList.jsx ***!
+  \*****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -303,8 +303,8 @@
 	  _createClass(TweetList, [{
 	    key: "render",
 	    value: function render() {
-	      var tweetlist = this.props.tweets.map(function (tweet) {
-	        return React.createElement(_templatetweet2.default, _extends({ key: tweet.id }, tweet));
+	      var tweetlist = this.props.tweet.map(function (tweet) {
+	        return React.createElement(_templatetweet2.default, _extends({ key: tweet.timestamp }, tweet));
 	      });
 	      return React.createElement(
 	        "div",
@@ -325,9 +325,9 @@
 
 /***/ },
 /* 3 */
-/*!********************************************!*\
-  !*** ./static/components/templatetweet.js ***!
-  \********************************************/
+/*!*********************************************!*\
+  !*** ./static/components/templatetweet.jsx ***!
+  \*********************************************/
 /***/ function(module, exports) {
 
 	"use strict";
@@ -355,7 +355,7 @@
 	
 	  _createClass(Tweettemplate, [{
 	    key: "render",
-	    value: function render(props) {
+	    value: function render() {
 	      return React.createElement(
 	        "li",
 	        { className: "collection-item avatar" },

@@ -5,7 +5,9 @@
   "main": "index.js",
   "dependencies": {
     "babel-loader": "^6.4.1",
+    "events": "^1.1.1",
     "fbjs": "^0.8.11",
+    "flux": "^3.1.2",
     "object-assign": "^4.1.1",
     "react": "^15.4.2",
     "react-dev": "0.0.1",
