@@ -15,7 +15,17 @@
       <div id="react"></div>
 
     </div>
-
+    <script>
+    // Check browser support
+    if (typeof(Storage) !== "undefined") {
+    // Store
+      localStorage.setItem("sessionid","{{ session }}" );
+    // Retrieve
+      document.getElementById("react").innerHTML = localStorage.getItem("sessionid");
+    } else {
+      document.getElementById("react").innerHTML = "Sorry, your browser does not support Web Storage...";
+    }
+    </script>
     <!-- scripts -->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>

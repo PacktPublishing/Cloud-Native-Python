@@ -177,7 +177,7 @@
 	    value: function sendTweet(event) {
 	      event.preventDefault();
 	      // this.props.sendTweet(this.refs.tweetTextArea.value);
-	      _Tactions2.default.sendTweet(this.refs.tweetTextArea.value);
+	      _Tactions2.default.sendTweet(this.refs.tweetTextArea.value, localStorage.getItem("sessionid"));
 	      this.refs.tweetTextArea.value = '';
 	    }
 	  }, {
@@ -278,8 +278,8 @@
 	    console.log(1, "Tactions for tweets");
 	    _API2.default.getAllTweets();
 	  },
-	  sendTweet: function sendTweet(body) {
-	    _API2.default.addTweet(body);
+	  sendTweet: function sendTweet(body, user) {
+	    _API2.default.addTweet(body, user);
 	  }
 	};
 
@@ -290,7 +290,7 @@
   \************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -305,23 +305,26 @@
 	exports.default = {
 	  getAllTweets: function getAllTweets() {
 	    console.log(2, "API get tweets");
-	    $.getJSON('/api/v2/tweets', function (tweetModels) {
+	
+	    var str = "/api/v2/tweets/" + localStorage.getItem("sessionid");
+	    $.getJSON(str, function (tweetModels) {
 	      var t = tweetModels;
+	      console.log(5, t);
 	      _SActions2.default.recievedTweets(t);
 	    });
 	  },
-	  addTweet: function addTweet(body) {
+	  addTweet: function addTweet(body, user) {
 	    $.ajax({
 	      url: '/api/v2/tweets',
 	      contentType: 'application/json',
 	      type: 'POST',
 	      data: JSON.stringify({
-	        'username': "Pardisturn",
+	        'username': user,
 	        'body': body
 	      }),
 	      success: function success() {
 	        (function (rawTweet) {
-	          return _SActions2.default.recievedTweet({ tweetedby: "Pardisturn", body: tweet, timestamp: Date.now });
+	          return _SActions2.default.recievedTweet({ tweetedby: user, body: tweet, timestamp: Date.now });
 	        });
 	      },
 	      error: function error() {
@@ -356,7 +359,7 @@
 	
 	exports.default = {
 	  recievedTweets: function recievedTweets(rawTweets) {
-	    console.log(3, "recieved tweets");
+	    console.log(3, rawTweets);
 	    _dispatcher2.default.dispatch({
 	      actionType: _constants2.default.RECIEVED_TWEETS,
 	      rawTweets: rawTweets
@@ -1585,7 +1588,7 @@
 	        tweet.updatedate = moment(tweet.timestamp).fromNow();
 	        return tweet;
 	      });
-	      return _tweets;
+	      return _tweets.reverse();
 	    }
 	  }, {
 	    key: "emitChange",
@@ -1614,6 +1617,7 @@
 	    case _constants2.default.RECIEVED_TWEETS:
 	      console.log(4, "Tstore for tweets");
 	      _tweets = action.rawTweets;
+	      console.log(6, _tweets[0]);
 	      TStore.emitChange();
 	      break;
 	    case _constants2.default.RECIEVED_TWEET:

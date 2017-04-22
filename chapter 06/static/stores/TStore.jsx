@@ -11,7 +11,7 @@ class TweetEventEmitter extends EventEmitter{
          tweet.updatedate = moment(tweet.timestamp).fromNow();
          return tweet;
        });
-    return _tweets;
+    return _tweets.reverse();
   }
   emitChange(){
     this.emit(CHANGE_EVENT);
@@ -33,6 +33,7 @@ AppDispatcher.register(action =>{
     case ActionTypes.RECIEVED_TWEETS:
         console.log(4, "Tstore for tweets");
         _tweets = action.rawTweets;
+        console.log(6, _tweets[0]);
         TStore.emitChange();
       break;
     case ActionTypes.RECIEVED_TWEET:

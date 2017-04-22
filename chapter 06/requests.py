@@ -38,11 +38,17 @@ class Requests:
         db = connection.app.tweets
         api_list=[]
         tweet = db.find({'tweetedby':user_id})
-        for i in tweet:
-            api_list.append(str(i))
+        for row in tweet:
+            dict = {}
+            dict['id'] = row['id']
+            dict['timestamp'] = row['timestamp']
+            dict['tweetedby'] = row['tweetedby']
+            dict['body'] = row['body']
+            api_list.append(dict)
         if api_list == []:
             abort(404)
-        return jsonify({'tweet': api_list})
+        print (api_list)
+        return json.dumps(api_list)
 
     # Adding user
     def add_user(new_user):

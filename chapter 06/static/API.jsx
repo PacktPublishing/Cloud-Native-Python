@@ -3,22 +3,25 @@ import SActions from './actions/SActions';
 export default{
   getAllTweets(){
     console.log(2, "API get tweets");
-    $.getJSON('/api/v2/tweets', function(tweetModels) {
+
+    let str = "/api/v2/tweets/" + localStorage.getItem("sessionid")
+    $.getJSON(str , function(tweetModels) {
         var t = tweetModels
+        console.log(5, t);
         SActions.recievedTweets(t)
     });
   },
-  addTweet(body){
+  addTweet(body, user){
     $.ajax({
   	    url: '/api/v2/tweets',
   	    contentType: 'application/json',
   	    type: 'POST',
   	    data: JSON.stringify({
-  		'username': "Pardisturn",
+  		'username': user,
       'body': body,
   	    }),
   	    success: function() {
-            rawTweet => SActions.recievedTweet({ tweetedby: "Pardisturn",body: tweet, timestamp: Date.now})
+            rawTweet => SActions.recievedTweet({ tweetedby: user,body: tweet, timestamp: Date.now})
   	    },
   	    error: function() {
   		      return console.log("Failed");
