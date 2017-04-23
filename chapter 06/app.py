@@ -59,11 +59,11 @@ def home():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        return render_template('index.html', session = session['username'])
+        return render_template('index.html', session = session['logged_in'])
 
 @app.route('/index')
 def index():
-    return render_template('index.html', session = session['username'])
+    return render_template('index.html', session = session['logged_in'])
 
 @app.route('/login', methods=['POST'])
 def do_admin_login():
