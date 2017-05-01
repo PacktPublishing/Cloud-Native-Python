@@ -1,0 +1,33 @@
+<!-- Template for profile -->
+
+<link rel="stylesheet" href="/static/style.css" type="text/css">
+{% extends "layout.html" %}
+  {% block body %}
+  <div class="container">
+      <div class="row">
+        <center><h2>Profile</h2></center>
+          <div class="col-md-4 col-md-offset-4">
+              <form method=POST action="{{ url_for('profile') }}">
+                  <div class="form-group">
+                      <label >Username</label>
+                      <input type="text" class="form-control" name="username" value='{{username}}'>
+                  </div>
+                  <div class="form-group">
+                      <label >Password</label>
+                      <input type="password" class="form-control" name="pass" value='{{password}}'>
+                  </div>
+                  <div class="form-group">
+                      <label >Email</label>
+                      <input type="email" class="form-control" name="email" value={{email}}>
+                  </div>
+                  <div class="form-group">
+                      <label >Full Name</label>
+                      <input type="text" class="form-control" name="name" value={{name}}>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block">Update</button>
+              </form>
+              <br>
+          </div>
+      </div>
+  </div>
+  {% endblock %}
