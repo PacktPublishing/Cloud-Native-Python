@@ -6,9 +6,9 @@ class UserCommandsHandler(object):
 
    def handle(self, command):
        if command.__class__ == UserRegisterEvent:
-           self.user_repository.save(User(command.id, command.name, command.password, command.emailid))
+           self.user_repository.save(commands.userRegister(command.id, command.name, command.password, command.emailid))
        if command.__class__ == UpdatePasswordEvent:
-           with self._user_(command.password, command.original_version) as item:
+           with self._user_(commands.updatePassword(self.id, command.password, command.original_version) as user:
                user.update(command.password)
 @contextmanager
    def _user(self, id, user_version):

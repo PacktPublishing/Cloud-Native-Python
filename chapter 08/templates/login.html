@@ -5,7 +5,7 @@
 <p>You're logged in already!</p>
 {% else %}
 
-<center><button onclick="lock.show();">Login using Oauth</button></center>
+<center><button onclick="lock.show();">Login using Auth0</button></center>
 <form action="/login" method="POST">
 	<div class="login">
 		<div class="login-screen">
@@ -34,7 +34,7 @@
 </form>
 <script src="https://cdn.auth0.com/js/lock/10.14/lock.min.js"></script>
 <script>
-  var lock = new Auth0Lock('kVb0LpqjYEwPAHt8dvBdRL8x3DQdsEy9', 'manishsethis.auth0.com', {
+  var lock = new Auth0Lock(os.environ['CLIENT_ID'], 'manishsethis.auth0.com', {
     auth: {
       redirectUrl: 'http://localhost:5000/callback',
       responseType: 'code',

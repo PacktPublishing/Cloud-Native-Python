@@ -15,7 +15,7 @@ export default{
   	    contentType: 'application/json',
   	    type: 'POST',
   	    data: JSON.stringify({
-  		'username': user,
+  		'username': localStorage.getItem("sessionid"),
       'body': body,
   	    }),
   	    success: function() {

@@ -68,8 +68,8 @@ def callback_handling():
     code = request.args.get('code')
     get_token = GetToken('manishsethis.auth0.com')
     auth0_users = Users('manishsethis.auth0.com')
-    token = get_token.authorization_code('kVb0LpqjYEwPAHt8dvBdRL8x3DQdsEy9',
-                                         'wPcqjsfjlxQJ4x0_AQOk96nq8Whp8l2VQkPCXks2tZaLSxCWzMeDB9T-w7sLTiD0', code, 'http://localhost:5000/callback')
+    token = get_token.authorization_code(os.environ['CLIENT_ID'],
+                                         os.environ['CLIENT_SECRET'], code, 'http://localhost:5000/callback')
     user_info = auth0_users.userinfo(token['access_token'])
     print(token)
     session['profile'] = json.loads(user_info)
@@ -240,7 +240,6 @@ def get_tweets():
 
 @app.route('/api/v2/tweets', methods=['POST'])
 def add_tweets():
-
     user_tweet = {}
     if not request.json or not 'username' in request.json or not 'body' in request.json:
         abort(400)
