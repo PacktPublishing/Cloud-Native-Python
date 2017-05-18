@@ -52,21 +52,21 @@ class Requests:
 
     # Adding user
     def add_user(new_user):
-        api_list=[]
-        print (new_user)
-        db = connection.app.users
-        user = db.find({'$or':[{"username":new_user['username']} ,{"email":new_user['email']}]})
-        for i in user:
-            print (str(i))
-            api_list.append(str(i))
-
-        # print (api_list)
-        if api_list == []:
-        #    print(new_user)
-           db.insert(new_user)
-           return "Success"
-        else :
-           abort(409)
+        # api_list=[]
+        # print (new_user)
+        # db = connection.app.users
+        # user = db.find({'$or':[{"username":new_user['username']} ,{"email":new_user['email']}]})
+        # for i in user:
+        #     print (str(i))
+        #     api_list.append(str(i))
+        #
+        # # print (api_list)
+        # if api_list == []:
+        # #    print(new_user)
+        db.insert(new_user)
+        return "Success"
+        # else :
+        #    abort(409)
 
     # Deleting User
     def del_user(del_user):

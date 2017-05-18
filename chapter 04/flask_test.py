@@ -27,7 +27,7 @@ class FlaskappTests(unittest.TestCase):
     def test_addusers_status_code(self):
         # sends HTTP POST request to the application
         # on the specified path
-        result = self.app.post('/api/v1/users', data='{"username": "manish21", "email":"manishtest@gmail.com", "password": "test123"}', content_type='application/json')
+        result = self.app.post('/api/v1/users', data='{ "username":"Ovestint", "email": "ronaldrvera@jourrapide.com", "password": "juzahpei6e", "name":"Ronald R. Vera"}', content_type='application/json')
         print (result)
         # assert the status code of the response
         self.assertEquals(result.status_code, 201)
@@ -35,13 +35,13 @@ class FlaskappTests(unittest.TestCase):
     def test_updusers_status_code(self):
         # sends HTTP PUT request to the application
         # on the specified path
-        result = self.app.put('/api/v1/users/4', data='{"password": "testing123"}', content_type='application/json')
+        result = self.app.put('/api/v1/users/5', data='{"username":"Tagning", "email": "leolaLguertin@teleworm.us"}', content_type='application/json')
         # assert the status code of the response
         self.assertEquals(result.status_code, 200)
     def test_addtweets_status_code(self):
         # sends HTTP GET request to the application
         # on the specified path
-        result = self.app.post('/api/v2/tweets', data='{"username": "mahesh@rocks", "body":"Wow! Is it working #testing"}', content_type='application/json')
+        result = self.app.post('/api/v2/tweets', data='{"username":"Tagning", "body": "It Works!#Awesome"}', content_type='application/json')
 
         # assert the status code of the response
         self.assertEqual(result.status_code, 201)
@@ -49,7 +49,7 @@ class FlaskappTests(unittest.TestCase):
     def test_delusers_status_code(self):
         # sends HTTP Delete request to the application
         # on the specified path
-        result = self.app.delete('/api/v1/users', data='{"username": "manish21"}', content_type='application/json')
+        result = self.app.delete('/api/v1/users', data='{"username":"Ovestint"}', content_type='application/json')
         print (result)
         # assert the status code of the response
         self.assertEquals(result.status_code, 200)

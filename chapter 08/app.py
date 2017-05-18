@@ -6,10 +6,18 @@ from flask_cors import CORS, cross_origin
 from flask import make_response, url_for
 import json
 import random
-from requests import Requests
+from request import Requests
 from pymongo import MongoClient
 from flask.ext.pymongo import PyMongo
 from time import gmtime, strftime
+import os
+from auth0.v3.authentication import GetToken
+from auth0.v3.authentication import Users
+from dotenv import load_dotenv
+from flask import Flask
+from flask import redirect
+from flask import render_template
+from flask import send_from_directory
 
 from flask.ext.mongoalchemy import MongoAlchemy
 
@@ -54,16 +62,36 @@ def create_mongodatabase():
 
 
 # API Routes
+
+@app.route('/callback')
+def callback_handling():
+    code = request.args.get('code')
+    get_token = GetToken('manishsethis.auth0.com')
+    auth0_users = Users('manishsethis.auth0.com')
+    token = get_token.authorization_code(os.environ['CLIENT_ID'],
+                                         os.environ['CLIENT_SECRET'], code, 'http://localhost:5000/callback')
+    user_info = auth0_users.userinfo(token['access_token'])
+    print(token)
+    session['profile'] = json.loads(user_info)
+    return redirect('/dashboard')
+
+
+@app.route("/dashboard")
+# @requires_auth
+def dashboard():
+    print(session['profile'])
+    return render_template('index.html', user=session['profile'])
+
 @app.route('/')
 def home():
-    if not session.get('logged_in'):
+    if not session.get('profile'):
         return render_template('login.html')
     else:
-        return render_template('index.html', session = session['logged_in'])
+        return render_template('index.html', user = session['profile'])
 
 @app.route('/index')
 def index():
-    return render_template('index.html', session = session['logged_in'])
+    return render_template('index.html', user = session['profile'])
 
 @app.route('/login', methods=['POST'])
 def do_admin_login():
@@ -212,7 +240,6 @@ def get_tweets():
 
 @app.route('/api/v2/tweets', methods=['POST'])
 def add_tweets():
-
     user_tweet = {}
     if not request.json or not 'username' in request.json or not 'body' in request.json:
         abort(400)

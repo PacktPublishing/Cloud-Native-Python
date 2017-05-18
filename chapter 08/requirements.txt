@@ -1,0 +1,8 @@
+flask==0.10.1
+pymongo==3.4.0
+flask-cors==3.0.2
+bcrypt
+pymongo
+flask-pymongo
+auth0-python
+requests

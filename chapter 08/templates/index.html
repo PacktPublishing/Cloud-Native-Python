@@ -10,7 +10,7 @@
   <body>
     <div class="container">
       <h1></h1>
-      <div align="right"> Welcome {{ session }}</div>
+      <div align="right"> Welcome {{ user['nickname'] }}</div>
       <br>
       <div id="react"></div>
 
@@ -19,7 +19,7 @@
     // Check browser support
     if (typeof(Storage) !== "undefined") {
     // Store
-      localStorage.setItem("sessionid","{{ session }}" );
+      localStorage.setItem("sessionid","{{ user['nickname'] }}" );
     // Retrieve
       document.getElementById("react").innerHTML = localStorage.getItem("sessionid");
     } else {

@@ -275,7 +275,7 @@
 	
 	exports.default = {
 	  getAllTweets: function getAllTweets() {
-	    console.log(1, "Tactions for tweets");
+	    // console.log(1, "Tactions for tweets");
 	    _API2.default.getAllTweets();
 	  },
 	  sendTweet: function sendTweet(body, user) {
@@ -304,12 +304,10 @@
 	
 	exports.default = {
 	  getAllTweets: function getAllTweets() {
-	    console.log(2, "API get tweets");
-	
+	    // console.log(2, "API get tweets");
 	    var str = "/api/v2/tweets/" + localStorage.getItem("sessionid");
 	    $.getJSON(str, function (tweetModels) {
 	      var t = tweetModels;
-	      console.log(5, t);
 	      _SActions2.default.recievedTweets(t);
 	    });
 	  },
@@ -319,7 +317,7 @@
 	      contentType: 'application/json',
 	      type: 'POST',
 	      data: JSON.stringify({
-	        'username': user,
+	        'username': localStorage.getItem("sessionid"),
 	        'body': body
 	      }),
 	      success: function success() {
@@ -359,7 +357,7 @@
 	
 	exports.default = {
 	  recievedTweets: function recievedTweets(rawTweets) {
-	    console.log(3, rawTweets);
+	    // console.log(3, rawTweets);
 	    _dispatcher2.default.dispatch({
 	      actionType: _constants2.default.RECIEVED_TWEETS,
 	      rawTweets: rawTweets
@@ -1615,9 +1613,9 @@
 	_dispatcher2.default.register(function (action) {
 	  switch (action.actionType) {
 	    case _constants2.default.RECIEVED_TWEETS:
-	      console.log(4, "Tstore for tweets");
+	      // console.log(4, "Tstore for tweets");
 	      _tweets = action.rawTweets;
-	      console.log(6, _tweets[0]);
+	      // console.log(6, _tweets[0]);
 	      TStore.emitChange();
 	      break;
 	    case _constants2.default.RECIEVED_TWEET:
