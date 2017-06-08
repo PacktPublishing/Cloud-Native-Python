@@ -1,4 +1,4 @@
-
+#Author: Manish Sethi
 # Specify the provider and access details
 provider "aws" {
   region = "${var.aws_region}"
@@ -155,15 +155,12 @@ resource "aws_instance" "web" {
     user = "ubuntu"
     key_file = "${var.key_file_path}"
     timeout = "5m"
-    # The connection will use the local SSH agent for authentication.
   }
   # Tags for machine
   tags {Name = "cna-web"}
   instance_type = "t2.micro"
   # Number of EC2 to spin up
   count = "1"
-  # Lookup the correct AMI based on the region
-  # we specified
   ami = "${lookup(var.aws_amis, var.aws_region)}"
   iam_instance_profile = "CodeDeploy-Instance-Role"
   # The name of our SSH keypair we created above.
