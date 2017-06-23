@@ -30,13 +30,13 @@ let TStore = new TweetEventEmitter();
 
 AppDispatcher.register(action =>{
   switch (action.actionType) {
-    case ActionTypes.RECIEVED_TWEETS:
+    case ActionTypes.RECEIVED_TWEETS:
         // console.log(4, "Tstore for tweets");
         _tweets = action.rawTweets;
         // console.log(6, _tweets[0]);
         TStore.emitChange();
       break;
-    case ActionTypes.RECIEVED_TWEET:
+    case ActionTypes.RECEIVED_TWEET:
         _tweets.unshift(action.rawTweet);
         TStore.emitChange();
       break;
