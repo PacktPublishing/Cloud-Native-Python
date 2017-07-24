@@ -24,8 +24,7 @@ self.addUser = function() {
 You will need to have Python installed on your system. A text editor, preferably
 Vim/Sublime/Notepad++, would be great. For one of the chapters, you may be required to
 download POSTMAN, which is a powerful API testing suite available as a Chrome
-extension. You can download this at https://chrome.google.com/webstore/detail/post
-man/fhbjgbiflinjbdggehcddcbncdddomop?hl=en.
+extension. You can download this at https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en.
 Other than these, it would be great if you have an account on the following web applications:
 
 * Jenkins
