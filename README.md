@@ -28,10 +28,10 @@ extension. You can download this at https://chrome.google.com/webstore/detail/po
 man/fhbjgbiflinjbdggehcddcbncdddomop?hl=en.
 Other than these, it would be great if you have an account on the following web applications:
 
-Jenkins
-Docker
-Amazon Web Services
-Terraform
+* Jenkins
+* Docker
+* Amazon Web Services
+* Terraform
 
 In case you do not have an account, this book will guide you, or at least direct you with
 regards to creating an account on the previously mentioned web applications.
