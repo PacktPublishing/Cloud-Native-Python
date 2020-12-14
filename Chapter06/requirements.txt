@@ -1,4 +1,4 @@
-flask==0.10.1
+flask==1.0
 pymongo==3.4.0
 flask-cors==3.0.2
 bcrypt
