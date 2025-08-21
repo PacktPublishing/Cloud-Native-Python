@@ -1,5 +1,5 @@
 flask==2.3.2
-pymongo==3.4.0
+pymongo==4.6.3
 flask-cors==3.0.2
 bcrypt
 pymongo
